@@ -1,113 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HillsByte</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HillsByte Admin</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#101513;color:#e9f2ed;padding-bottom:78px}
-header{padding:18px;background:#13201b;position:sticky;top:0;z-index:5;border-bottom:1px solid #263a31}
-.logo{font-size:25px;font-weight:800;color:#52d68b}.container{max-width:700px;margin:auto;padding:14px}
-.page{display:none}.page.active{display:block}.card{background:#17231e;border:1px solid #293c33;border-radius:18px;padding:16px;margin:12px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.balance{font-size:30px;font-weight:800;margin:8px 0}
-.muted{color:#9eafa6;font-size:13px}.btn{border:0;border-radius:12px;padding:12px 15px;background:#2cc875;color:#07130c;font-weight:800;cursor:pointer;margin:4px 0}.btn.secondary{background:#26372f;color:#dce9e2}.btn.danger{background:#b94b4b;color:white}
-.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.task-title{font-weight:800;font-size:17px}.reward{color:#58df91;font-weight:800}
-input,textarea,select{width:100%;padding:12px;border-radius:11px;border:1px solid #34483e;background:#101815;color:white;margin:6px 0 12px}textarea{min-height:100px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#14201b;border-top:1px solid #2a3c34;display:flex;justify-content:space-around;padding:8px 3px;z-index:20}
-nav button{background:none;border:0;color:#8fa198;font-size:11px}.nav-active{color:#55db8c!important;font-weight:800}
-.modal{display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:18px;overflow:auto}.modal-box{max-width:650px;margin:30px auto;background:#17231e;border:1px solid #355244;border-radius:18px;padding:18px}
-.toast{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:#2cc875;color:#06130b;padding:11px 16px;border-radius:10px;display:none;z-index:50;font-weight:700}
-.progress{height:10px;background:#293831;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:#43d684}
-img.preview{width:80px;height:80px;object-fit:cover;border-radius:10px;margin:4px}
-h2,h3{margin-top:5px}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#0d1310;color:#edf7f1}
+header{background:#132019;border-bottom:1px solid #294136;padding:16px;position:sticky;top:0;z-index:5}
+.brand{font-weight:900;font-size:22px;color:#50dc8d}main{max-width:1100px;margin:auto;padding:16px}
+.card{background:#15221c;border:1px solid #294137;border-radius:16px;padding:16px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+.stat b{display:block;font-size:25px;margin-top:5px}.muted{color:#9caf a5;font-size:13px;color:#9caf a5}
+input,textarea,select{width:100%;padding:11px;margin:6px 0 12px;border-radius:10px;border:1px solid #385046;background:#0d1511;color:#fff}
+button{padding:11px 14px;border:0;border-radius:10px;background:#35ce7c;color:#07140d;font-weight:800;cursor:pointer;margin:3px}
+button.secondary{background:#283b32;color:#e8f5ed}button.danger{background:#c94f56;color:#fff}
+.tabs{display:flex;gap:6px;overflow:auto;margin:10px 0}.tabs button.active{background:#35ce7c;color:#07140d}
+.panel{display:none}.panel.active{display:block}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{display:inline-block;padding:5px 9px;border-radius:99px;background:#294137;color:#bce8ce;font-size:12px}
+.item{border-top:1px solid #2a4035;padding:13px 0}.item:first-child{border-top:0}
+#app{display:none}#login{max-width:430px;margin:70px auto}
+img.proof{width:90px;height:90px;object-fit:cover;border-radius:10px;margin:4px}
+.notice{background:#2a2416;border:1px solid #705b2a;padding:12px;border-radius:12px;color:#f4df9b}
 </style>
 </head>
 <body>
-<header><div class="container"><div class="logo">HILLSBYTE</div><div class="muted">Earn • Complete Tasks • Refer</div></div></header>
+<header><div class="row"><div class="brand">HILLSBYTE ADMIN</div><button id="logout" class="secondary">Logout</button></div></header>
 
-<main class="container">
-<section id="home" class="page active">
-<h2>Dashboard</h2>
-<div class="card"><div class="muted">Available Balance</div><div id="cash" class="balance">$0.00</div><div class="muted">Pending: <span id="pending">$0.00</span></div></div>
-<div class="grid">
-<div class="card"><div class="muted">Lifetime</div><b id="lifetime">$0.00</b></div>
-<div class="card"><div class="muted">Referrals</div><b id="referrals">0</b></div>
+<main id="login">
+<div class="card">
+<h2>Admin Login</h2>
+<p class="muted">Use a Firebase Authentication account that has the <b>admin</b> custom claim.</p>
+<input id="email" type="email" placeholder="Admin email">
+<input id="password" type="password" placeholder="Password">
+<button id="loginBtn">Sign in</button>
+<p id="loginMsg" class="muted"></p>
 </div>
-<div class="card"><div class="row"><div><b>Daily Check-in</b><div class="muted">+25 HC daily</div></div><button class="btn" id="checkin">Check in</button></div><p>Streak: <b id="streak">0</b> days • HC: <b id="hc">0</b></p></div>
-<div class="grid"><button class="btn" onclick="showPage('earn')">Earn Tasks</button><button class="btn secondary" onclick="showPage('referral')">Refer Friends</button></div>
-</section>
-
-<section id="earn" class="page"><h2>Task Marketplace</h2><div id="tasks"></div></section>
-
-<section id="referral" class="page">
-<h2>Referral Campaign</h2>
-<div class="card"><div class="muted">Your referral code</div><h2>HILLS100</h2><input id="refLink" readonly><button class="btn" id="copyRef">Copy Link</button><button class="btn secondary" id="shareRef">Share</button></div>
-<div class="card"><div class="row"><b>First 5 qualified referrals</b><b id="qprogress">0/5</b></div><div class="progress"><i id="bar" style="width:0%"></i></div><p class="muted">Unlock a $2 bonus when you reach 5 qualified referrals.</p></div>
-<div class="grid"><div class="card">Total<br><b id="r1">0</b></div><div class="card">Qualified<br><b id="r2">0</b></div><div class="card">Earnings<br><b id="re">$0.00</b></div></div>
-</section>
-
-<section id="wallet" class="page"><h2>Wallet</h2><div class="card"><p>Available: <b id="wCash">$0.00</b></p><p>Pending: <b id="wPending">$0.00</b></p><p>Lifetime: <b id="wLife">$0.00</b></p><button class="btn" onclick="withdraw()">Withdraw</button><p class="muted">Demo only. Real withdrawals require a secure backend/payment integration.</p></div></section>
-
-<section id="activity" class="page"><h2>Activity</h2><div id="activityList"></div><h3>My Submissions</h3><div id="submissions"></div></section>
-
-<section id="profile" class="page"><h2>Profile & Settings</h2><div class="card"><label>Email</label><input id="email" type="email" placeholder="you@example.com"><button class="btn secondary" id="verify">Verify Email (Demo)</button><p id="verifyStatus" class="muted">Not verified</p><label>Language</label><select id="language"></select><label>Currency</label><select id="currency"></select><button class="btn" id="save">Save Settings</button><p class="muted">This is a frontend demo. Verification does not send a real email.</p></div></section>
-
-<section id="admin" class="page"><h2>Admin Review</h2><p class="muted">Frontend demo only. Production admin approval must be server-side and authenticated.</p><div id="adminList"></div></section>
 </main>
 
-<nav>
-<button onclick="showPage('home')" id="n-home" class="nav-active">⌂<br>Home</button>
-<button onclick="showPage('earn')" id="n-earn">◉<br>Earn</button>
-<button onclick="showPage('referral')" id="n-referral">↗<br>Refer</button>
-<button onclick="showPage('wallet')" id="n-wallet">₿<br>Wallet</button>
-<button onclick="showPage('activity')" id="n-activity">☷<br>Activity</button>
-<button onclick="showPage('profile')" id="n-profile">☻<br>Profile</button>
-</nav>
+<main id="app">
+<div class="notice">Security: this panel expects Firebase Auth <b>admin=true</b> custom claims and Firestore rules that enforce admin access. The UI itself is not the security boundary.</div>
 
-<div class="modal" id="taskModal"><div class="modal-box"><div class="row"><h2 id="mTitle"></h2><button class="btn secondary" onclick="closeModal()">✕</button></div><p id="mDesc"></p><p>Reward: <b id="mReward" class="reward"></b></p><p class="muted">Complete the task honestly, then submit proof/details for review.</p><textarea id="submissionText" placeholder="Enter your task response/details"></textarea><label>Up to 3 screenshots</label><input id="screens" type="file" accept="image/*" multiple><div id="previews"></div><button class="btn" id="submitTask">Submit for Review</button></div></div>
-<div class="modal" id="withdrawModal"><div class="modal-box"><h2>Withdrawal</h2><p>This prototype does not process real payments.</p><button class="btn" onclick="closeWithdraw()">Close</button></div></div>
-<div class="toast" id="toast"></div>
+<div class="grid">
+<div class="card stat"><span class="muted">Users</span><b id="usersCount">0</b></div>
+<div class="card stat"><span class="muted">Submissions</span><b id="subsCount">0</b></div>
+<div class="card stat"><span class="muted">Pending</span><b id="pendingCount">0</b></div>
+<div class="card stat"><span class="muted">Tasks</span><b id="tasksCount">0</b></div>
+</div>
 
-<script>
-const tasks=[
-{id:1,title:"Website Experience Review",desc:"Visit the assigned website and provide a genuine experience review.",reward:.75},
-{id:2,title:"App Engagement Verification",desc:"Complete the specified app engagement and submit your result.",reward:1.20},
-{id:3,title:"Traffic Quality Task",desc:"Review the assigned traffic source and answer the verification questions.",reward:.50},
-{id:4,title:"Content Interaction",desc:"Interact with the assigned content and submit your response.",reward:.35}
-];
-let state=JSON.parse(localStorage.getItem("hillsbyte_state")||"null")||{cash:0,pending:0,lifetime:0,hc:0,streak:0,lastCheckin:"",referrals:0,qualified:0,refEarn:0,refMilestone:false,email:"",verified:false,language:"English",currency:"USD",subs:[],activity:[]};
-let selectedTask=null;
-const langs=["English","French","Spanish","Portuguese","German","Arabic","Chinese","Japanese","Korean","Hindi","Yoruba","Igbo","Hausa","Italian","Dutch","Russian","Turkish","Swahili","Amharic","Thai","Vietnamese","Indonesian","Malay","Bengali","Urdu","Punjabi","Tamil","Telugu","Polish","Ukrainian","Romanian","Greek","Hebrew","Persian","Czech","Swedish","Danish","Finnish","Norwegian","Filipino","Zulu","Xhosa"];
-const currencies=["USD","NGN","EUR","GBP","CAD","AUD","GHS","KES","ZAR","INR","JPY","CNY","AED","SAR","BRL","CHF","NZD","SGD","HKD","SEK","NOK","DKK","PLN","TRY","UAH","EGP","MAD","TZS","UGX","RWF"];
-for(let i=langs.length;i<200;i++)langs.push("Language option "+(i+1));
-for(let i=currencies.length;i<200;i++)currencies.push("CUR"+(i+1));
+<div class="tabs">
+<button data-tab="overview" class="active">Overview</button>
+<button data-tab="tasks">Tasks</button>
+<button data-tab="submissions">Submissions</button>
+<button data-tab="users">Users</button>
+<button data-tab="withdrawals">Withdrawals</button>
+</div>
 
-function save(){localStorage.setItem("hillsbyte_state",JSON.stringify(state));}
-function money(v){let rates={USD:1,NGN:1600,EUR:.85,GBP:.74,CAD:1.36,AUD:1.52,GHS:15,KES:129,ZAR:17.3,INR:83,JPY:147,CNY:7.2,AED:3.67,SAR:3.75,BRL:5.5,CHF:.86,NZD:1.65,SGD:1.3,HKD:7.8};let r=rates[state.currency]||1;return (v*r).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+" "+state.currency}
-function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
-function showPage(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("nav-active"));let n=document.getElementById("n-"+id);if(n)n.classList.add("nav-active");render()}
-function render(){
-cash.textContent=money(state.cash);pending.textContent=money(state.pending);lifetime.textContent=money(state.lifetime);referrals.textContent=state.referrals;streak.textContent=state.streak;hc.textContent=state.hc;
-wCash.textContent=money(state.cash);wPending.textContent=money(state.pending);wLife.textContent=money(state.lifetime);r1.textContent=state.referrals;r2.textContent=state.qualified;re.textContent=money(state.refEarn);qprogress.textContent=state.qualified+"/5";bar.style.width=Math.min(100,state.qualified/5*100)+"%";
-document.getElementById("refLink").value=location.href.split("?")[0]+"?ref=HILLS100";email.value=state.email;verifyStatus.textContent=state.verified?"✓ Email verified (demo)":"Not verified";
-tasksDiv();activityDiv();adminDiv();
+<section id="overview" class="panel active">
+<div class="card"><h2>Admin Dashboard</h2><p class="muted">Firebase project: hillsbyte-7743c</p><div id="recent"></div></div>
+</section>
+
+<section id="tasks" class="panel">
+<div class="card">
+<h2>Create Task</h2>
+<input id="taskTitle" placeholder="Task title">
+<textarea id="taskDesc" placeholder="Task instructions/description"></textarea>
+<input id="taskReward" type="number" step="0.01" placeholder="Reward in USD">
+<select id="taskStatus"><option value="active">Active</option><option value="disabled">Disabled</option></select>
+<button id="createTask">Create Task</button>
+</div>
+<div class="card"><h2>Task List</h2><div id="taskList"></div></div>
+</section>
+
+<section id="submissions" class="panel">
+<div class="card"><h2>Submission Review</h2><div id="submissionList"></div></div>
+</section>
+
+<section id="users" class="panel">
+<div class="card"><h2>Users</h2><input id="userSearch" placeholder="Search by email or Telegram ID"><div id="userList"></div></div>
+</section>
+
+<section id="withdrawals" class="panel">
+<div class="card"><h2>Withdrawals</h2><div id="withdrawalList"></div><p class="muted">Withdrawal approval must ultimately be performed by trusted backend code/payment integration.</p></div>
+</section>
+</main>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {getFirestore,collection,getDocs,query,orderBy,limit,addDoc,doc,updateDoc,getDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={"apiKey": "AIzaSyDr6D7tJf_IB67GcwA4q-VAKEAh9i9anxM", "authDomain": "hillsbyte-7743c.firebaseapp.com", "projectId": "hillsbyte-7743c", "storageBucket": "hillsbyte-7743c.firebasestorage.app", "messagingSenderId": "1022388838477", "appId": "1:1022388838477:web:f3dc62e4994f65f7377c04", "measurementId": "G-1BPV74S8RR"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app), db=getFirestore(app);
+
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function msg(t){$("loginMsg").textContent=t}
+
+async function isAdmin(user){
+  const token=await user.getIdTokenResult(true);
+  return token.claims.admin===true;
 }
-function tasksDiv(){document.getElementById("tasks").innerHTML=tasks.map(t=>`<div class="card"><div class="row"><div><div class="task-title">${t.title}</div><div class="muted">${t.desc}</div></div><div class="reward">$${t.reward.toFixed(2)}</div></div><button class="btn" onclick="openTask(${t.id})">View Task</button></div>`).join("")}
-function openTask(id){selectedTask=tasks.find(t=>t.id===id);mTitle.textContent=selectedTask.title;mDesc.textContent=selectedTask.desc;mReward.textContent="$"+selectedTask.reward.toFixed(2);submissionText.value="";screens.value="";previews.innerHTML="";taskModal.style.display="block"}
-function closeModal(){taskModal.style.display="none"}
-screens.addEventListener("change",()=>{previews.innerHTML="";[...screens.files].slice(0,3).forEach(f=>{let r=new FileReader();r.onload=e=>previews.innerHTML+=`<img class="preview" src="${e.target.result}">`;r.readAsDataURL(f)})});
-submitTask.onclick=async()=>{if(!selectedTask)return;let files=[...screens.files].slice(0,3);let imgs=[];for(const f of files){imgs.push(await new Promise(res=>{let r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f)}))}state.pending+=selectedTask.reward;state.subs.unshift({task:selectedTask.title,reward:selectedTask.reward,text:submissionText.value,images:imgs,date:new Date().toLocaleString(),status:"Under Review"});state.activity.unshift("Submitted "+selectedTask.title+" — Under Review");save();closeModal();toast("Submitted for review");render()}
-function activityDiv(){document.getElementById("activityList").innerHTML=state.activity.length?state.activity.map(x=>`<div class="card">${x}</div>`).join(""):"<div class='card muted'>No activity yet.</div>";document.getElementById("submissions").innerHTML=state.subs.length?state.subs.map((s,i)=>`<div class="card"><div class="row"><b>${s.task}</b><span class="reward">${money(s.reward)}</span></div><p class="muted">${s.date}</p><p>${s.text||"No text submitted."}</p><b>${s.status}</b></div>`).join(""):"<div class='card muted'>No submissions yet.</div>"}
-function adminDiv(){document.getElementById("adminList").innerHTML=state.subs.length?state.subs.map((s,i)=>`<div class="card"><b>${s.task}</b><p>Reward: ${money(s.reward)}</p><p>${s.text||"No text"}</p><p class="muted">${s.date}</p>${s.images.map(x=>`<img class="preview" src="${x}">`).join("")}<br>${s.status==="Under Review"?`<button class="btn" onclick="approve(${i})">Approve</button><button class="btn danger" onclick="reject(${i})">Reject</button>`:`<b>${s.status}</b>`}</div>`).join(""):"<div class='card muted'>No submissions.</div>"}
-function approve(i){let s=state.subs[i];if(s.status!=="Under Review")return;state.pending=Math.max(0,state.pending-s.reward);state.cash+=s.reward;state.lifetime+=s.reward;s.status="Approved";state.activity.unshift("Approved "+s.task+" — "+money(s.reward));save();toast("Task approved");render()}
-function reject(i){let s=state.subs[i];if(s.status!=="Under Review")return;state.pending=Math.max(0,state.pending-s.reward);s.status="Rejected";state.activity.unshift("Rejected "+s.task);save();toast("Task rejected");render()}
-checkin.onclick=()=>{let today=new Date().toDateString();if(state.lastCheckin===today)return toast("Already checked in today");let y=new Date();y.setDate(y.getDate()-1);state.streak=state.lastCheckin===y.toDateString()?state.streak+1:1;state.lastCheckin=today;state.hc+=25;state.activity.unshift("Daily check-in +25 HC");save();toast("+25 HC added");render()}
-copyRef.onclick=async()=>{try{await navigator.clipboard.writeText(refLink.value);toast("Referral link copied")}catch(e){refLink.select();document.execCommand("copy");toast("Referral link copied")}}
-shareRef.onclick=()=>{if(navigator.share)navigator.share({title:"HillsByte",text:"Join me on HillsByte",url:refLink.value});else toast("Share not supported")}
-verify.onclick=()=>{state.verified=true;save();render();toast("Demo verification complete")}
-save.onclick=()=>{state.email=email.value;state.language=language.value;state.currency=currency.value;save();render();toast("Settings saved")}
-function withdraw(){withdrawModal.style.display="block"}function closeWithdraw(){withdrawModal.style.display="none"}
-language.innerHTML=langs.map(x=>`<option>${x}</option>`).join("");currency.innerHTML=currencies.map(x=>`<option>${x}</option>`).join("");language.value=state.language;currency.value=state.currency;render();
+
+onAuthStateChanged(auth, async user=>{
+  if(!user){$("login").style.display="block";$("app").style.display="none";return}
+  try{
+    if(!(await isAdmin(user))){msg("This account is not an admin.");await signOut(auth);return}
+    $("login").style.display="none";$("app").style.display="block";await loadAll();
+  }catch(e){console.error(e);await signOut(auth);msg("Admin access denied: "+e.message)}
+});
+
+$("loginBtn").onclick=async()=>{
+  try{msg("Signing in...");await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);}
+  catch(e){msg(e.message)}
+};
+$("logout").onclick=()=>signOut(auth);
+
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");$(b.dataset.tab).classList.add("active");
+});
+
+async function loadAll(){await Promise.all([loadTasks(),loadSubmissions(),loadUsers(),loadWithdrawals()])}
+
+async function loadTasks(){
+ const snap=await getDocs(collection(db,"tasks"));$("tasksCount").textContent=snap.size;
+ $("taskList").innerHTML=snap.docs.map(d=>{
+  const x=d.data();return `<div class="item"><div class="row"><b>${esc(x.title)}</b><span class="badge">${esc(x.status||"active")}</span></div><p>${esc(x.description)}</p><b>$${Number(x.reward||0).toFixed(2)}</b><br><button class="secondary" onclick="toggleTask('${d.id}','${x.status==="active"?"disabled":"active"}')">${x.status==="active"?"Disable":"Enable"}</button></div>`
+ }).join("")||"<p class='muted'>No tasks yet.</p>";
+}
+window.toggleTask=async(id,status)=>{await updateDoc(doc(db,"tasks",id),{status});await loadTasks()};
+
+$("createTask").onclick=async()=>{
+ const title=$("taskTitle").value.trim(),description=$("taskDesc").value.trim(),reward=Number($("taskReward").value);
+ if(!title||!description||!(reward>0))return alert("Enter title, description and a valid reward.");
+ await addDoc(collection(db,"tasks"),{title,description,reward,status:$("taskStatus").value,createdAt:serverTimestamp()});
+ $("taskTitle").value="";$("taskDesc").value="";$("taskReward").value="";await loadTasks();
+};
+
+async function loadSubmissions(){
+ const snap=await getDocs(collection(db,"submissions"));$("subsCount").textContent=snap.size;
+ const pending=snap.docs.filter(d=>(d.data().status||"").toLowerCase().replaceAll(" ","_")==="under_review"||d.data().status==="Under Review");
+ $("pendingCount").textContent=pending.length;
+ $("submissionList").innerHTML=snap.docs.map(d=>{
+  const x=d.data();let imgs=(x.images||[]).map(i=>`<img class="proof" src="${esc(i)}">`).join("");
+  return `<div class="item"><div class="row"><b>${esc(x.task||x.taskTitle)}</b><span class="badge">${esc(x.status||"Unknown")}</span></div><p>Reward: $${Number(x.reward||0).toFixed(2)}</p><p>${esc(x.text||"No text")}</p>${imgs}<br>${x.status==="Under Review"?`<button onclick="review('${d.id}','Approved')">Approve</button><button class="danger" onclick="review('${d.id}','Rejected')">Reject</button>`:""}</div>`
+ }).join("")||"<p class='muted'>No submissions.</p>";
+}
+window.review=async(id,status)=>{
+ // The panel writes only the review status. Production wallet changes should be done by a trusted server/Cloud Function.
+ await updateDoc(doc(db,"submissions",id),{status,reviewedAt:serverTimestamp(),reviewedBy:auth.currentUser.uid});
+ await loadSubmissions();
+};
+
+async function loadUsers(){
+ const snap=await getDocs(collection(db,"users"));$("usersCount").textContent=snap.size;
+ const render=(docs)=>docs.map(d=>{
+  const x=d.data();return `<div class="item"><div class="row"><b>${esc(x.email||x.username||"Telegram user")}</b><span class="badge">${esc(x.status||"active")}</span></div><p class="muted">Telegram ID: ${esc(x.telegramId||x.tgId||"—")}</p><p>Available: ${Number(x.cash||x.availableBalance||0).toFixed(2)} USD · Pending: ${Number(x.pending||0).toFixed(2)} USD</p></div>`
+ }).join("")||"<p class='muted'>No users.</p>";
+ const docs=snap.docs; $("userList").innerHTML=render(docs);
+ $("userSearch").oninput=()=>{const q=$("userSearch").value.toLowerCase();$("userList").innerHTML=render(docs.filter(d=>JSON.stringify(d.data()).toLowerCase().includes(q)))};
+}
+async function loadWithdrawals(){
+ const snap=await getDocs(collection(db,"withdrawals"));
+ $("withdrawalList").innerHTML=snap.docs.map(d=>{const x=d.data();return `<div class="item"><div class="row"><b>${esc(x.userId||"User")}</b><span class="badge">${esc(x.status||"pending")}</span></div><p>Amount: $${Number(x.amount||0).toFixed(2)}</p><p class="muted">${esc(x.method||"—")}</p>${(x.status||"pending")==="pending"?`<button onclick="wd('${d.id}','approved')">Approve</button><button class="danger" onclick="wd('${d.id}','rejected')">Reject</button>`:""}</div>`}).join("")||"<p class='muted'>No withdrawal requests.</p>";
+}
+window.wd=async(id,status)=>{await updateDoc(doc(db,"withdrawals",id),{status,reviewedAt:serverTimestamp(),reviewedBy:auth.currentUser.uid});await loadWithdrawals()};
 </script>
 </body>
 </html>
