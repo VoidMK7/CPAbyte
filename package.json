@@ -1,6 +1,6 @@
 {
   "name": "hillsbyte-functions",
-  "private": true,
+  "public": true,
   "engines": {
     "node": "20"
   },
