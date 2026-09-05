@@ -1,113 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HillsByte</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>NEXA Rewards</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#101513;color:#e9f2ed;padding-bottom:78px}
-header{padding:18px;background:#13201b;position:sticky;top:0;z-index:5;border-bottom:1px solid #263a31}
-.logo{font-size:25px;font-weight:800;color:#52d68b}.container{max-width:700px;margin:auto;padding:14px}
-.page{display:none}.page.active{display:block}.card{background:#17231e;border:1px solid #293c33;border-radius:18px;padding:16px;margin:12px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.balance{font-size:30px;font-weight:800;margin:8px 0}
-.muted{color:#9eafa6;font-size:13px}.btn{border:0;border-radius:12px;padding:12px 15px;background:#2cc875;color:#07130c;font-weight:800;cursor:pointer;margin:4px 0}.btn.secondary{background:#26372f;color:#dce9e2}.btn.danger{background:#b94b4b;color:white}
-.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.task-title{font-weight:800;font-size:17px}.reward{color:#58df91;font-weight:800}
-input,textarea,select{width:100%;padding:12px;border-radius:11px;border:1px solid #34483e;background:#101815;color:white;margin:6px 0 12px}textarea{min-height:100px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#14201b;border-top:1px solid #2a3c34;display:flex;justify-content:space-around;padding:8px 3px;z-index:20}
-nav button{background:none;border:0;color:#8fa198;font-size:11px}.nav-active{color:#55db8c!important;font-weight:800}
-.modal{display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:18px;overflow:auto}.modal-box{max-width:650px;margin:30px auto;background:#17231e;border:1px solid #355244;border-radius:18px;padding:18px}
-.toast{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:#2cc875;color:#06130b;padding:11px 16px;border-radius:10px;display:none;z-index:50;font-weight:700}
-.progress{height:10px;background:#293831;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:#43d684}
-img.preview{width:80px;height:80px;object-fit:cover;border-radius:10px;margin:4px}
-h2,h3{margin-top:5px}
-</style>
-</head>
-<body>
-<header><div class="container"><div class="logo">HILLSBYTE</div><div class="muted">Earn • Complete Tasks • Refer</div></div></header>
-
-<main class="container">
-<section id="home" class="page active">
-<h2>Dashboard</h2>
-<div class="card"><div class="muted">Available Balance</div><div id="cash" class="balance">$0.00</div><div class="muted">Pending: <span id="pending">$0.00</span></div></div>
-<div class="grid">
-<div class="card"><div class="muted">Lifetime</div><b id="lifetime">$0.00</b></div>
-<div class="card"><div class="muted">Referrals</div><b id="referrals">0</b></div>
+:root{color-scheme:dark;--bg:#080b12;--card:#111827;--muted:#8b95a7;--text:#f7f9fc;--accent:#7c5cff;--accent2:#23d5ab;--line:#20283a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#1b1740 0,#080b12 42%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+.wrap{max-width:520px;margin:auto;padding:18px 16px 34px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{font-size:24px;font-weight:900;letter-spacing:.5px}.pill{font-size:12px;color:#c9c3ff;background:#241e4d;border:1px solid #3d3475;border-radius:999px;padding:7px 10px}
+.hero{background:linear-gradient(135deg,#17132f,#121827);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 20px 60px #0007}.hello{color:var(--muted);font-size:14px}.balance{font-size:42px;font-weight:900;margin:5px 0}.coin{color:#b8b0ff;font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:#0d1320;border:1px solid var(--line);border-radius:16px;padding:13px 10px}.stat b{display:block;font-size:18px}.stat span{font-size:11px;color:var(--muted)}.section{margin-top:16px;background:#0e1420;border:1px solid var(--line);border-radius:20px;padding:16px}.section h2{font-size:16px;margin:0 0 7px}.section p{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 14px}.btn{width:100%;border:0;border-radius:15px;padding:15px 16px;font-size:15px;font-weight:800;color:white;background:linear-gradient(135deg,var(--accent),#5f43d9);cursor:pointer}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.alt{background:#172033;border:1px solid #2a354a}.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}.verified{color:var(--accent2)}.danger{color:#ff8c8c}.footer{padding:18px 4px;text-align:center;color:#667085;font-size:11px}
+</style></head>
+<body><div class="wrap">
+<div class="top"><div class="brand">NEXA</div><div class="pill">Rewards</div></div>
+<div class="hero"><div class="hello" id="hello">Connecting Telegram…</div><div class="balance" id="balance">—</div><div class="coin" id="coin">Nexa Coin</div>
+<div class="grid"><div class="stat"><b id="level">—</b><span>Level</span></div><div class="stat"><b id="streak">—</b><span>Streak</span></div><div class="stat"><b id="days">—</b><span>Active days</span></div></div></div>
+<div class="section"><h2>📺 Watch Ads</h2><p>Watch a rewarded AdsGram ad to earn Nexa Coin. Channel membership is required.</p><button class="btn" id="adBtn" disabled>Loading…</button><div class="status" id="status"></div></div>
+<div class="section"><h2>🔒 Earning access</h2><p id="channelText">Checking your NEXA channel membership…</p><button class="btn alt" id="refreshBtn">Refresh account</button></div>
+<div class="footer">NEXA Rewards · Powered by Supabase + AdsGram</div>
 </div>
-<div class="card"><div class="row"><div><b>Daily Check-in</b><div class="muted">+25 HC daily</div></div><button class="btn" id="checkin">Check in</button></div><p>Streak: <b id="streak">0</b> days • HC: <b id="hc">0</b></p></div>
-<div class="grid"><button class="btn" onclick="showPage('earn')">Earn Tasks</button><button class="btn secondary" onclick="showPage('referral')">Refer Friends</button></div>
-</section>
-
-<section id="earn" class="page"><h2>Task Marketplace</h2><div id="tasks"></div></section>
-
-<section id="referral" class="page">
-<h2>Referral Campaign</h2>
-<div class="card"><div class="muted">Your referral code</div><h2>HILLS100</h2><input id="refLink" readonly><button class="btn" id="copyRef">Copy Link</button><button class="btn secondary" id="shareRef">Share</button></div>
-<div class="card"><div class="row"><b>First 5 qualified referrals</b><b id="qprogress">0/5</b></div><div class="progress"><i id="bar" style="width:0%"></i></div><p class="muted">Unlock a $2 bonus when you reach 5 qualified referrals.</p></div>
-<div class="grid"><div class="card">Total<br><b id="r1">0</b></div><div class="card">Qualified<br><b id="r2">0</b></div><div class="card">Earnings<br><b id="re">$0.00</b></div></div>
-</section>
-
-<section id="wallet" class="page"><h2>Wallet</h2><div class="card"><p>Available: <b id="wCash">$0.00</b></p><p>Pending: <b id="wPending">$0.00</b></p><p>Lifetime: <b id="wLife">$0.00</b></p><button class="btn" onclick="withdraw()">Withdraw</button><p class="muted">Demo only. Real withdrawals require a secure backend/payment integration.</p></div></section>
-
-<section id="activity" class="page"><h2>Activity</h2><div id="activityList"></div><h3>My Submissions</h3><div id="submissions"></div></section>
-
-<section id="profile" class="page"><h2>Profile & Settings</h2><div class="card"><label>Email</label><input id="email" type="email" placeholder="you@example.com"><button class="btn secondary" id="verify">Verify Email (Demo)</button><p id="verifyStatus" class="muted">Not verified</p><label>Language</label><select id="language"></select><label>Currency</label><select id="currency"></select><button class="btn" id="save">Save Settings</button><p class="muted">This is a frontend demo. Verification does not send a real email.</p></div></section>
-
-<section id="admin" class="page"><h2>Admin Review</h2><p class="muted">Frontend demo only. Production admin approval must be server-side and authenticated.</p><div id="adminList"></div></section>
-</main>
-
-<nav>
-<button onclick="showPage('home')" id="n-home" class="nav-active">⌂<br>Home</button>
-<button onclick="showPage('earn')" id="n-earn">◉<br>Earn</button>
-<button onclick="showPage('referral')" id="n-referral">↗<br>Refer</button>
-<button onclick="showPage('wallet')" id="n-wallet">₿<br>Wallet</button>
-<button onclick="showPage('activity')" id="n-activity">☷<br>Activity</button>
-<button onclick="showPage('profile')" id="n-profile">☻<br>Profile</button>
-</nav>
-
-<div class="modal" id="taskModal"><div class="modal-box"><div class="row"><h2 id="mTitle"></h2><button class="btn secondary" onclick="closeModal()">✕</button></div><p id="mDesc"></p><p>Reward: <b id="mReward" class="reward"></b></p><p class="muted">Complete the task honestly, then submit proof/details for review.</p><textarea id="submissionText" placeholder="Enter your task response/details"></textarea><label>Up to 3 screenshots</label><input id="screens" type="file" accept="image/*" multiple><div id="previews"></div><button class="btn" id="submitTask">Submit for Review</button></div></div>
-<div class="modal" id="withdrawModal"><div class="modal-box"><h2>Withdrawal</h2><p>This prototype does not process real payments.</p><button class="btn" onclick="closeWithdraw()">Close</button></div></div>
-<div class="toast" id="toast"></div>
-
 <script>
-const tasks=[
-{id:1,title:"Website Experience Review",desc:"Visit the assigned website and provide a genuine experience review.",reward:.75},
-{id:2,title:"App Engagement Verification",desc:"Complete the specified app engagement and submit your result.",reward:1.20},
-{id:3,title:"Traffic Quality Task",desc:"Review the assigned traffic source and answer the verification questions.",reward:.50},
-{id:4,title:"Content Interaction",desc:"Interact with the assigned content and submit your response.",reward:.35}
-];
-let state=JSON.parse(localStorage.getItem("hillsbyte_state")||"null")||{cash:0,pending:0,lifetime:0,hc:0,streak:0,lastCheckin:"",referrals:0,qualified:0,refEarn:0,refMilestone:false,email:"",verified:false,language:"English",currency:"USD",subs:[],activity:[]};
-let selectedTask=null;
-const langs=["English","French","Spanish","Portuguese","German","Arabic","Chinese","Japanese","Korean","Hindi","Yoruba","Igbo","Hausa","Italian","Dutch","Russian","Turkish","Swahili","Amharic","Thai","Vietnamese","Indonesian","Malay","Bengali","Urdu","Punjabi","Tamil","Telugu","Polish","Ukrainian","Romanian","Greek","Hebrew","Persian","Czech","Swedish","Danish","Finnish","Norwegian","Filipino","Zulu","Xhosa"];
-const currencies=["USD","NGN","EUR","GBP","CAD","AUD","GHS","KES","ZAR","INR","JPY","CNY","AED","SAR","BRL","CHF","NZD","SGD","HKD","SEK","NOK","DKK","PLN","TRY","UAH","EGP","MAD","TZS","UGX","RWF"];
-for(let i=langs.length;i<200;i++)langs.push("Language option "+(i+1));
-for(let i=currencies.length;i<200;i++)currencies.push("CUR"+(i+1));
-
-function save(){localStorage.setItem("hillsbyte_state",JSON.stringify(state));}
-function money(v){let rates={USD:1,NGN:1600,EUR:.85,GBP:.74,CAD:1.36,AUD:1.52,GHS:15,KES:129,ZAR:17.3,INR:83,JPY:147,CNY:7.2,AED:3.67,SAR:3.75,BRL:5.5,CHF:.86,NZD:1.65,SGD:1.3,HKD:7.8};let r=rates[state.currency]||1;return (v*r).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+" "+state.currency}
-function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
-function showPage(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("nav-active"));let n=document.getElementById("n-"+id);if(n)n.classList.add("nav-active");render()}
-function render(){
-cash.textContent=money(state.cash);pending.textContent=money(state.pending);lifetime.textContent=money(state.lifetime);referrals.textContent=state.referrals;streak.textContent=state.streak;hc.textContent=state.hc;
-wCash.textContent=money(state.cash);wPending.textContent=money(state.pending);wLife.textContent=money(state.lifetime);r1.textContent=state.referrals;r2.textContent=state.qualified;re.textContent=money(state.refEarn);qprogress.textContent=state.qualified+"/5";bar.style.width=Math.min(100,state.qualified/5*100)+"%";
-document.getElementById("refLink").value=location.href.split("?")[0]+"?ref=HILLS100";email.value=state.email;verifyStatus.textContent=state.verified?"✓ Email verified (demo)":"Not verified";
-tasksDiv();activityDiv();adminDiv();
+const tg=window.Telegram?.WebApp; if(tg){tg.ready();tg.expand();}
+const API='https://dnunclktqlnimdzvrcwg.supabase.co/functions/v1';
+let session=null, ad=null;
+const $=id=>document.getElementById(id);
+async function load(){
+  if(!tg?.initData){$('status').textContent='Open NEXA from Telegram to continue.';$('status').className='status danger';return;}
+  $('status').textContent='Checking account…';
+  try{const r=await fetch(API+'/mini-app-session',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({initData:tg.initData})});const d=await r.json();if(!r.ok)throw new Error(d.error||'Unable to verify Telegram');session=d;
+    $('hello').textContent='Welcome, '+d.user.firstName+' 👋';$('balance').textContent=Number(d.balance).toLocaleString();$('coin').textContent=d.coinName;$('level').textContent=d.level;$('streak').textContent=d.streak;$('days').textContent=d.activeDays;
+    if(d.ads.channelVerified){$('channelText').innerHTML='<span class="verified">✓ Channel membership verified. Earning is unlocked.</span>';}else{$('channelText').textContent='Join the required NEXA channel, then refresh this account.';}
+    $('adBtn').disabled=!d.ads.channelVerified||!d.ads.enabled||d.ads.claimedThisHour;$('adBtn').textContent=d.ads.claimedThisHour?'Claimed this hour':(d.ads.enabled?'Watch Ad +'+d.ads.reward:'Ads unavailable');
+    if(d.ads.enabled&&d.ads.channelVerified&&!d.ads.claimedThisHour){try{ad=window.Adsgram.init({blockId:'46004'});}catch(e){$('status').textContent='AdsGram is not ready yet.';}}
+    $('status').textContent=d.ads.claimedThisHour?'Reward already claimed this hour.':'Ready.';
+  }catch(e){$('status').textContent=e.message;$('status').className='status danger';}
 }
-function tasksDiv(){document.getElementById("tasks").innerHTML=tasks.map(t=>`<div class="card"><div class="row"><div><div class="task-title">${t.title}</div><div class="muted">${t.desc}</div></div><div class="reward">$${t.reward.toFixed(2)}</div></div><button class="btn" onclick="openTask(${t.id})">View Task</button></div>`).join("")}
-function openTask(id){selectedTask=tasks.find(t=>t.id===id);mTitle.textContent=selectedTask.title;mDesc.textContent=selectedTask.desc;mReward.textContent="$"+selectedTask.reward.toFixed(2);submissionText.value="";screens.value="";previews.innerHTML="";taskModal.style.display="block"}
-function closeModal(){taskModal.style.display="none"}
-screens.addEventListener("change",()=>{previews.innerHTML="";[...screens.files].slice(0,3).forEach(f=>{let r=new FileReader();r.onload=e=>previews.innerHTML+=`<img class="preview" src="${e.target.result}">`;r.readAsDataURL(f)})});
-submitTask.onclick=async()=>{if(!selectedTask)return;let files=[...screens.files].slice(0,3);let imgs=[];for(const f of files){imgs.push(await new Promise(res=>{let r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f)}))}state.pending+=selectedTask.reward;state.subs.unshift({task:selectedTask.title,reward:selectedTask.reward,text:submissionText.value,images:imgs,date:new Date().toLocaleString(),status:"Under Review"});state.activity.unshift("Submitted "+selectedTask.title+" — Under Review");save();closeModal();toast("Submitted for review");render()}
-function activityDiv(){document.getElementById("activityList").innerHTML=state.activity.length?state.activity.map(x=>`<div class="card">${x}</div>`).join(""):"<div class='card muted'>No activity yet.</div>";document.getElementById("submissions").innerHTML=state.subs.length?state.subs.map((s,i)=>`<div class="card"><div class="row"><b>${s.task}</b><span class="reward">${money(s.reward)}</span></div><p class="muted">${s.date}</p><p>${s.text||"No text submitted."}</p><b>${s.status}</b></div>`).join(""):"<div class='card muted'>No submissions yet.</div>"}
-function adminDiv(){document.getElementById("adminList").innerHTML=state.subs.length?state.subs.map((s,i)=>`<div class="card"><b>${s.task}</b><p>Reward: ${money(s.reward)}</p><p>${s.text||"No text"}</p><p class="muted">${s.date}</p>${s.images.map(x=>`<img class="preview" src="${x}">`).join("")}<br>${s.status==="Under Review"?`<button class="btn" onclick="approve(${i})">Approve</button><button class="btn danger" onclick="reject(${i})">Reject</button>`:`<b>${s.status}</b>`}</div>`).join(""):"<div class='card muted'>No submissions.</div>"}
-function approve(i){let s=state.subs[i];if(s.status!=="Under Review")return;state.pending=Math.max(0,state.pending-s.reward);state.cash+=s.reward;state.lifetime+=s.reward;s.status="Approved";state.activity.unshift("Approved "+s.task+" — "+money(s.reward));save();toast("Task approved");render()}
-function reject(i){let s=state.subs[i];if(s.status!=="Under Review")return;state.pending=Math.max(0,state.pending-s.reward);s.status="Rejected";state.activity.unshift("Rejected "+s.task);save();toast("Task rejected");render()}
-checkin.onclick=()=>{let today=new Date().toDateString();if(state.lastCheckin===today)return toast("Already checked in today");let y=new Date();y.setDate(y.getDate()-1);state.streak=state.lastCheckin===y.toDateString()?state.streak+1:1;state.lastCheckin=today;state.hc+=25;state.activity.unshift("Daily check-in +25 HC");save();toast("+25 HC added");render()}
-copyRef.onclick=async()=>{try{await navigator.clipboard.writeText(refLink.value);toast("Referral link copied")}catch(e){refLink.select();document.execCommand("copy");toast("Referral link copied")}}
-shareRef.onclick=()=>{if(navigator.share)navigator.share({title:"HillsByte",text:"Join me on HillsByte",url:refLink.value});else toast("Share not supported")}
-verify.onclick=()=>{state.verified=true;save();render();toast("Demo verification complete")}
-save.onclick=()=>{state.email=email.value;state.language=language.value;state.currency=currency.value;save();render();toast("Settings saved")}
-function withdraw(){withdrawModal.style.display="block"}function closeWithdraw(){withdrawModal.style.display="none"}
-language.innerHTML=langs.map(x=>`<option>${x}</option>`).join("");currency.innerHTML=currencies.map(x=>`<option>${x}</option>`).join("");language.value=state.language;currency.value=state.currency;render();
-</script>
-</body>
-</html>
+$('refreshBtn').onclick=load;
+$('adBtn').onclick=async()=>{if(!ad||!session)return;$('adBtn').disabled=true;$('status').textContent='Loading ad…';try{const result=await ad.show();$('status').textContent='Ad completed. Confirming reward…';const r=await fetch(API+'/mini-app-reward',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({initData:tg.initData})});const d=await r.json();if(!r.ok)throw new Error(d.error||'Reward failed');$('status').textContent=d.rewarded?'+'+d.amount+' Nexa Coin added to your balance.':'Reward already claimed.';setTimeout(load,900);}catch(e){$('status').textContent=e?.message||'Ad was not completed.';$('adBtn').disabled=false;}};
+load();
+</script></body></html>
