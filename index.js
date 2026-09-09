@@ -12,9 +12,12 @@ const PORT=process.env.PORT||10000;
 const ADMIN_IDS=(process.env.ADMIN_TELEGRAM_IDS||"").split(",").map(x=>x.trim()).filter(Boolean);
 const BOT_TOKEN=process.env.BOT_TOKEN||"";
 const CHANNEL_USERNAME=process.env.CHANNEL_USERNAME||"";
-const db=new Database(process.env.DB_PATH||path.join(ROOT,"data","hillsbyte.db"));
-db.pragma("journal_mode = WAL");
 
+const DB_PATH=process.env.DB_PATH||path.join(ROOT,"data","hillsbyte.db");
+fs.mkdirSync(path.dirname(DB_PATH),{recursive:true});
+
+const db=new Database(DB_PATH);
+db.pragma("journal_mode = WAL");
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(
  id INTEGER PRIMARY KEY AUTOINCREMENT,
