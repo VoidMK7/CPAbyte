@@ -450,14 +450,15 @@ function AdminPage({setToast}){
   const pendingWithdrawals=withdrawals.filter(w=>w.status==="pending").length;
   const activeTasks=tasks.filter(t=>Number(t.active)===1).length;
 
-  const nav=[
-    ["overview","Overview"],
-    ["tasks","Tasks"],
-    ["submissions","Proofs"],
-    ["users","Users"],
-    ["withdrawals","Withdrawals"],
-    ["ads","Ads"]
-  ];
+const nav=[
+  ["overview","Overview"],
+  ["tasks","Tasks"],
+  ["submissions","Proofs"],
+  ["users","Users"],
+  ["withdrawals","Withdrawals"],
+  ["ads","Ads"],
+  ["broadcast","Broadcast"]
+];
 
   return <section className="adminShell">
 
