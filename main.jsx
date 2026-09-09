@@ -20,6 +20,8 @@ const api = async (url, options={}) => {
 
 function tgUser(){
   const w=window.Telegram?.WebApp;
+  console.log("INIT DATA:", w?.initData);
+  console.log("TELEGRAM USER:", w?.initDataUnsafe?.user);
   return w?.initDataUnsafe?.user || {};
 }
 
