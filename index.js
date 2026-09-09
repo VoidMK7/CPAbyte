@@ -70,7 +70,7 @@ if(!u){
  const referredBy=referralCode?.replace(/^ref_/,"")||null;
  const validReferrer=referredBy&&referredBy!==code&&db.prepare("SELECT id FROM users WHERE referral_code=?").get(referredBy);
    const code=ref();
-   db.prepare("INSERT INTO users(telegram_id,username,first_name,referral_code,referred_by) VALUES(?,?,?,?,?)").run(String(tid),username||"",firstName||"",code,referredBy);
+   db.prepare("INSERT INTO users(telegram_id,username,first_name,referral_code,referred_by) VALUES(?,?,?,?,?)").run(String(tid),username||"",firstName||"",code,validReferrer?referredBy:null);
    u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
 }
  if(username!==undefined || firstName!==undefined) db.prepare("UPDATE users SET username=COALESCE(?,username),first_name=COALESCE(?,first_name) WHERE id=?").run(username||null,firstName||null,u.id);
