@@ -44,7 +44,7 @@ function App(){
     ["home","Home",ListChecks],["wallet","Wallet",Wallet],["referrals","Referrals",Users],["profile","Profile",UserCircle]
   ];
 
-  if(!me) return <div className="splash"><div className="logoMark">H</div><h1>HILLSBYTE</h1><p>Loading your workspace…</p></div>;
+  if(!me) return <div className="splash"><div className="logoMark">H</div><h1>HILLSBYTE</h1><p>Join the HillsByte channel to continue.</p><button className="primary" onClick={()=>window.Telegram?.WebApp?.openTelegramLink("https://t.me/hillsbyteOG")}>Join Channel</button><button onClick={()=>load()}>Verify</button></div>;
 
   return <div className="appShell">
     <header className="topbar"><div><div className="brand">HILLS<span>BYTE</span></div><small>Earn. Complete. Grow.</small></div><div className="balance">${Number(me.balance||0).toFixed(2)}</div></header>
