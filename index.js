@@ -7,7 +7,7 @@ import multer from "multer";
 import {fileURLToPath} from "url";
 
 const __dirname=path.dirname(fileURLToPath(import.meta.url));
-const ROOT=path.join(__dirname,"..");
+const ROOT=__dirname;
 const PORT=process.env.PORT||10000;
 const ADMIN_IDS=(process.env.ADMIN_TELEGRAM_IDS||"").split(",").map(x=>x.trim()).filter(Boolean);
 const BOT_TOKEN=process.env.BOT_TOKEN||"";
