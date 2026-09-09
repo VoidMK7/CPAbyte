@@ -338,7 +338,7 @@ app.get("/api/admin/submissions",admin,(req,res)=>{
     JOIN users u ON u.id=s.user_id
     JOIN tasks t ON t.id=s.task_id
     ORDER BY s.id DESC LIMIT 500`).all();
-  res.json({submissions:rows.map(s=>({...s,s.screenshots:parseScreenshots(s.screenshots)}))});
+  res.json({submissions:rows.map(s=>({...s,screenshots:parseScreenshots(s.screenshots)}))});
 });
 
 function parseScreenshots(value){
