@@ -321,7 +321,11 @@ app.post("/api/admin/users/:id/message",admin,async(req,res)=>{
 app.post("/api/admin/broadcast",admin,async(req,res)=>{
   try{
     const message=String(req.body.message||"").trim();
-    if(!message) throw new Error("Message is required.");
+    const imageUrl=String(req.body.imageUrl||"").trim();
+
+    if(!message && !imageUrl){
+      throw new Error("Enter a message or upload a picture.");
+    }
 
     const users=db.prepare(
       "SELECT telegram_id FROM users WHERE status='active'"
@@ -331,21 +335,39 @@ app.post("/api/admin/broadcast",admin,async(req,res)=>{
 
     for(const u of users){
       try{
-        const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-          method:"POST",
-          headers:{"content-type":"application/json"},
-          body:JSON.stringify({
-            chat_id:u.telegram_id,
-            text:message
-          })
-        });
+        let r;
+
+        if(imageUrl){
+          r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({
+              chat_id:u.telegram_id,
+              photo:imageUrl,
+              caption:message
+            })
+          });
+        }else{
+          r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({
+              chat_id:u.telegram_id,
+              text:message
+            })
+          });
+        }
 
         const data=await r.json();
         if(data.ok) sent++;
       }catch{}
     }
 
-    res.json({ok:true,sent,total:users.length});
+    res.json({
+      ok:true,
+      sent,
+      total:users.length
+    });
   }catch(e){
     res.status(400).json({error:e.message});
   }
