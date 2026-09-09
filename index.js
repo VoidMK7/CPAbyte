@@ -66,11 +66,11 @@ function day(){return new Date().toISOString().slice(0,10)}
 function ref(){return crypto.randomBytes(4).toString("hex").toUpperCase()}
 function getUser(tid,username,firstName){
  let u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
- if(!u){
+if(!u){
    const code=ref();
    db.prepare("INSERT INTO users(telegram_id,username,first_name,referral_code) VALUES(?,?,?,?)").run(String(tid),username||"",firstName||"",code);
    u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
- }
+}
  if(username!==undefined || firstName!==undefined) db.prepare("UPDATE users SET username=COALESCE(?,username),first_name=COALESCE(?,first_name) WHERE id=?").run(username||null,firstName||null,u.id);
  return db.prepare("SELECT * FROM users WHERE id=?").get(u.id);
 }
