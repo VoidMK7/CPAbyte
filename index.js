@@ -203,7 +203,43 @@ app.post("/api/profile",(req,res)=>{
   res.json({user:publicUser(db.prepare("SELECT * FROM users WHERE id=?").get(u.id))});
  }catch(e){res.status(400).json({error:e.message})}
 });
+app.post("/api/telegram/webhook",async(req,res)=>{
+  try{
+    const msg=req.body?.message;
 
+    if(msg?.text?.startsWith("/start")){
+      const name=msg.from?.first_name||"there";
+
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({
+          chat_id:msg.chat.id,
+          text:`🎉 Welcome to HillsByte, ${name}!
+
+💰 Complete tasks, earn rewards, and grow your balance.
+
+🚀 Tap the button below to start earning.`,
+          reply_markup:{
+            inline_keyboard:[[
+              {
+                text:"🚀 Open HillsByte",
+                web_app:{
+                  url:"https://cpabyte-1.onrender.com"
+                }
+              }
+            ]]
+          }
+        })
+      });
+    }
+
+    res.sendStatus(200);
+  }catch(e){
+    console.error("Telegram webhook error:",e);
+    res.sendStatus(200);
+  }
+});
 app.post("/api/promo/redeem",(req,res)=>{
  try{
   const u=getUser(req.body.telegramId);requireActive(u);
