@@ -119,7 +119,7 @@ function verifyTelegramInitData(initData){
   const dataCheck=[...params.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>`${k}=${v}`).join("\n");
   const secret=crypto.createHmac("sha256","WebAppData").update(BOT_TOKEN).digest();
   const calc=crypto.createHmac("sha256",secret).update(dataCheck).digest("hex");
-  return crypto.timingSafeEqual(Buffer.from(calc),Buffer.from(hash));
+  return calc.length === hash.length && crypto.timingSafeEqual(Buffer.from(calc),Buffer.from(hash));
 }
 async function telegramMemberStatus(tid){
   if(!BOT_TOKEN || !CHANNEL_USERNAME) return true;
