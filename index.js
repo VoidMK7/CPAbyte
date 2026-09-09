@@ -303,6 +303,53 @@ app.post("/api/admin/users/:id/message",admin,async(req,res)=>{
  if(BOT_TOKEN&&u){await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({chat_id:u.telegram_id,text:req.body.message||"You have a new message from HillsByte admin."})}).catch(()=>{})}
  res.json({ok:true});
 });
+app.post("/api/admin/users/:id/message",admin,async(req,res)=>{
+  const u=db.prepare("SELECT * FROM users WHERE id=?").get(req.params.id);
+  if(BOT_TOKEN&&u){
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+      method:"POST",
+      headers:{"content-type":"application/json"},
+      body:JSON.stringify({
+        chat_id:u.telegram_id,
+        text:req.body.message||"You have a new message from HillsByte admin."
+      })
+    }).catch(()=>{});
+  }
+  res.json({ok:true});
+});
+
+app.post("/api/admin/broadcast",admin,async(req,res)=>{
+  try{
+    const message=String(req.body.message||"").trim();
+    if(!message) throw new Error("Message is required.");
+
+    const users=db.prepare(
+      "SELECT telegram_id FROM users WHERE status='active'"
+    ).all();
+
+    let sent=0;
+
+    for(const u of users){
+      try{
+        const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+          method:"POST",
+          headers:{"content-type":"application/json"},
+          body:JSON.stringify({
+            chat_id:u.telegram_id,
+            text:message
+          })
+        });
+
+        const data=await r.json();
+        if(data.ok) sent++;
+      }catch{}
+    }
+
+    res.json({ok:true,sent,total:users.length});
+  }catch(e){
+    res.status(400).json({error:e.message});
+  }
+});
 app.get("/api/admin/withdrawals",admin,(req,res)=>res.json({withdrawals:db.prepare("SELECT w.*,u.username,u.telegram_id FROM withdrawals w JOIN users u ON u.id=w.user_id ORDER BY w.id DESC LIMIT 500").all()}));
 app.post("/api/admin/withdrawals/:id",admin,(req,res)=>{
  const w=db.prepare("SELECT * FROM withdrawals WHERE id=?").get(req.params.id); if(!w) return res.status(404).json({error:"Not found"});
