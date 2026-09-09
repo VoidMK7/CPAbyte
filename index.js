@@ -207,7 +207,7 @@ app.post("/api/admin/submissions/:id",admin,(req,res)=>{
    db.prepare("UPDATE tasks SET total_completed=total_completed+1 WHERE id=?").run(t.id);
    db.prepare("UPDATE users SET balance=balance+? WHERE id=?").run(t.reward,u.id);
    const count=db.prepare("SELECT count(*) c FROM submissions WHERE user_id=? AND status='approved'").get(u.id).c;
-   if(u.referred_by) db.prepare("UPDATE users SET hillscoin=hillscoin+20 WHERE referral_code=?").run(u.referred_by);
+   if(u.referred_by && count===5) db.prepare("UPDATE users SET hillscoin=hillscoin+20 WHERE referral_code=?").run(u.referred_by);
    if(u.referred_by && count>5){
      const parent=db.prepare("SELECT * FROM users WHERE referral_code=?").get(u.referred_by);
      if(parent) db.prepare("UPDATE users SET balance=balance+? WHERE id=?").run(t.reward*0.10,parent.id);
