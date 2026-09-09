@@ -499,7 +499,51 @@ const nav=[
         </div>
       </div>
     </div>}
+{tab==="broadcast"&&<div className="adminContent">
+  <div className="adminPanel">
+    <div className="adminPanelHeader">
+      <div>
+        <h3>📢 Broadcast Message</h3>
+        <p>Send a notification directly to all active HillsByte users on Telegram.</p>
+      </div>
+    </div>
 
+    <textarea
+      placeholder="Write your message here..."
+      rows="7"
+      id="broadcastMessage"
+    />
+
+    <button
+      className="primaryBtn"
+      onClick={async()=>{
+        const message=document.getElementById("broadcastMessage").value.trim();
+        if(!message){
+          setToast("Enter a message first.");
+          return;
+        }
+
+        if(!confirm("Send this message to all active users?")) return;
+
+        try{
+          const d=await api("/api/admin/broadcast",{
+            method:"POST",
+            body:JSON.stringify({message})
+          });
+
+          setToast(`Broadcast sent to ${d.sent} of ${d.total} users.`);
+          document.getElementById("broadcastMessage").value="";
+        }catch(e){
+          setToast(e.message);
+        }
+      }}
+    >
+      Send to All Users
+    </button>
+  </div>
+</div>}
+
+{tab==="tasks"&&<div className="adminContent">
     {tab==="tasks"&&<div className="adminContent">
       <div className="adminPanel">
         <div className="adminPanelHeader">
