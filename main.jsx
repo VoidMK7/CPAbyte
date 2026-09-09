@@ -691,7 +691,53 @@ const nav=[
       </div>
     </div>}
 
-    {selectedSubmission&&<div className="proofModal" onClick={()=>setSelectedSubmission(null)}>
+{tab==="broadcast"&&<div className="adminContent">
+  <div className="adminPanel">
+    <div className="adminPanelHeader">
+      <div>
+        <h3>📢 Broadcast Message</h3>
+        <p>Send a notification to all active HillsByte users on Telegram.</p>
+      </div>
+    </div>
+
+    <textarea
+      id="broadcastMessage"
+      placeholder="Write your message here..."
+      rows="7"
+    />
+
+    <button
+      className="primary adminPublish"
+      onClick={async()=>{
+        const box=document.getElementById("broadcastMessage");
+        const message=box.value.trim();
+
+        if(!message){
+          setToast("Enter a message first.");
+          return;
+        }
+
+        if(!confirm("Send this message to all active users?")) return;
+
+        try{
+          const d=await api("/api/admin/broadcast",{
+            method:"POST",
+            body:JSON.stringify({message})
+          });
+
+          setToast(`Broadcast sent to ${d.sent} of ${d.total} users.`);
+          box.value="";
+        }catch(e){
+          setToast(e.message);
+        }
+      }}
+    >
+      Send to All Users
+    </button>
+  </div>
+</div>}
+
+{selectedSubmission&&<div className="proofModal" onClick={()=>setSelectedSubmission(null)}>
       <div className="proofModalInner" onClick={e=>e.stopPropagation()}>
         <div className="proofModalHeader"><div><h3>{selectedSubmission.title||"Task proof"}</h3><p>{selectedSubmission.first_name||"Telegram user"} {selectedSubmission.username?`· @${selectedSubmission.username}`:""}</p></div><button onClick={()=>setSelectedSubmission(null)}><X/></button></div>
         {selectedSubmission.note&&<div className="proofNote"><b>User note</b><p>{selectedSubmission.note}</p></div>}
