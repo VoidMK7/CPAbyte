@@ -24,7 +24,7 @@ function App(){
   const load=async()=>{
     try{
       const user=tgUser();
-      const d=await api(`/api/bootstrap?telegramId=${encodeURIComponent(user.id)}&username=${encodeURIComponent(user.username||"")}&firstName=${encodeURIComponent(user.first_name||"")}`,{headers:{"x-telegram-init-data":window.Telegram?.WebApp?.initData||""}});
+      const d=await api(`/api/bootstrap?telegramId=${encodeURIComponent(user.id)}&username=${encodeURIComponent(user.username||"")}&firstName=${encodeURIComponent(user.first_name||"")}&referralCode=${encodeURIComponent(window.Telegram?.WebApp?.initDataUnsafe?.start_param||"")}`,{headers:{"x-telegram-init-data":window.Telegram?.WebApp?.initData||""}});
       setMe(d.user); setTasks(d.tasks); setAdmin(d.admin); setProfile(d.user);
     }catch(e){setToast(e.message)}
   };
