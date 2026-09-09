@@ -11,8 +11,8 @@ const api = async (url, options={}) => {
 };
 
 function tgUser(){
-  const w = window.Telegram?.WebApp;
-  return w?.initDataUnsafe?.user;
+  const w=window.Telegram?.WebApp;
+  return w?.initDataUnsafe?.user || {};
 }
 
 function App(){
