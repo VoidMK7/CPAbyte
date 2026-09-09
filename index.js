@@ -64,7 +64,7 @@ const upload=multer({dest:path.join(ROOT,"uploads"),limits:{files:4,fileSize:5*1
 
 function day(){return new Date().toISOString().slice(0,10)}
 function ref(){return crypto.randomBytes(4).toString("hex").toUpperCase()}
-function getUser(tid,username,firstName){
+function getUser(tid,username,firstName,referralCode){
  let u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
 if(!u){
    const code=ref();
