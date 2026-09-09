@@ -141,7 +141,7 @@ function WalletPage({me,reload,setToast}){
   </section>
 }
 
-function ReferralPage({me}){return <section><div className="refHero"><Users size={34}/><h2>Invite & Earn</h2><p>When a referral completes 5 approved tasks, you earn 10% of their future earnings.</p><div className="code">{me.referral_code}</div><button onClick={()=>navigator.clipboard?.writeText(`https://t.me/${window.BOT_USERNAME||"CPAbyte_bot"}?start=ref_${me.referral_code}`)}>Copy invite</button></div><div className="info"><Gift/><div><b>20 HC Coins</b><p>You receive 20 HillsCoin when your referral completes a qualifying task.</p></div></div></section>}
+function ReferralPage({me}){return <section><div className="refHero"><Users size={34}/><h2>Invite & Earn</h2><p>When a referral completes 5 approved tasks, you earn 10% of their future earnings.</p><div className="code">{me.referral_code}</div><button onClick={()=>navigator.clipboard?.writeText(`https://t.me/${window.BOT_USERNAME || "BytesMK7_bot"}?start=ref_${me.referral_code}`)}>Copy invite</button></div><div className="info"><Gift/><div><b>20 HC Coins</b><p>You receive 20 HillsCoin when your referral completes a qualifying task.</p></div></div></section>}
 
 function ProfilePage({me,reload,setToast}){
   const [language,setLanguage]=useState(me.language||"English");
