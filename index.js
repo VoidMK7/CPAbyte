@@ -67,6 +67,7 @@ function ref(){return crypto.randomBytes(4).toString("hex").toUpperCase()}
 function getUser(tid,username,firstName,referralCode){
  let u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
 if(!u){
+ const referredBy=referralCode?.replace(/^ref_/,"")||null;
    const code=ref();
    db.prepare("INSERT INTO users(telegram_id,username,first_name,referral_code) VALUES(?,?,?,?)").run(String(tid),username||"",firstName||"",code);
    u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
