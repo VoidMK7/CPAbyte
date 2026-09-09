@@ -69,7 +69,7 @@ function getUser(tid,username,firstName,referralCode){
 if(!u){
  const referredBy=referralCode?.replace(/^ref_/,"")||null;
    const code=ref();
-   db.prepare("INSERT INTO users(telegram_id,username,first_name,referral_code) VALUES(?,?,?,?)").run(String(tid),username||"",firstName||"",code);
+   db.prepare("INSERT INTO users(telegram_id,username,first_name,referral_code,referred_by) VALUES(?,?,?,?,?)").run(String(tid),username||"",firstName||"",code,referredBy);
    u=db.prepare("SELECT * FROM users WHERE telegram_id=?").get(String(tid));
 }
  if(username!==undefined || firstName!==undefined) db.prepare("UPDATE users SET username=COALESCE(?,username),first_name=COALESCE(?,first_name) WHERE id=?").run(username||null,firstName||null,u.id);
