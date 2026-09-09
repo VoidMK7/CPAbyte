@@ -106,7 +106,7 @@ app.get("/api/bootstrap",async(req,res)=>{
     const joined=await telegramMemberStatus(tid);
     if(!joined) return res.status(403).json({error:`Join ${CHANNEL_USERNAME} on Telegram before using HillsByte.`,requiresChannel:true,channel:CHANNEL_USERNAME});
   }
-  const u=getUser(tid,req.query.username,req.query.firstName); requireActive(u);
+  const u=getUser(tid,req.query.username,req.query.firstName,req.query.referralCode); requireActive(u);
   const tasks=db.prepare("SELECT * FROM tasks WHERE active=1 AND total_completed<max_slots ORDER BY id DESC").all().map(t=>{
     const s=db.prepare("SELECT count FROM daily_slots WHERE task_id=? AND day=?").get(t.id,day());
     return {...t,daily_completed:s?.count||0,remaining_daily:Math.max(0,t.daily_slots-(s?.count||0))};
