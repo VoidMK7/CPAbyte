@@ -172,7 +172,22 @@ app.post("/api/promo/redeem",(req,res)=>{
  }catch(e){res.status(400).json({error:e.message})}
 });
 
-function admin(req,res,next){if(!isAdmin(req.query.telegramId||req.body.telegramId)){return res.status(403).json({error:"Admin only."})}next()}
+function admin(req,res,next){
+  const initData=req.headers["x-telegram-init-data"]||"";
+  const params=new URLSearchParams(initData);
+  const userJson=params.get("user");
+
+  let tid="";
+  try{
+    tid=userJson?String(JSON.parse(userJson).id):"";
+  }catch{}
+
+  if(!tid || !isAdmin(tid)){
+    return res.status(403).json({error:"Admin only"});
+  }
+
+  next();
+}
 app.get("/api/admin/tasks",admin,(req,res)=>res.json({tasks:db.prepare("SELECT * FROM tasks ORDER BY id DESC").all()}));
 app.post("/api/admin/tasks",admin,(req,res)=>{
  const b=req.body;
