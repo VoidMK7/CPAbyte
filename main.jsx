@@ -261,7 +261,7 @@ function AdminPage({setToast}){
     url:"",
     reward:"1",
     max_slots:"1000",
-    daily_slots:"200",
+    daily_slots:"500",
     timer_seconds:"120",
     ad_enabled:true
   };
