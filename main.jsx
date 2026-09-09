@@ -543,7 +543,6 @@ const nav=[
   </div>
 </div>}
 
-{tab==="tasks"&&<div className="adminContent">
     {tab==="tasks"&&<div className="adminContent">
       <div className="adminPanel">
         <div className="adminPanelHeader">
