@@ -504,9 +504,15 @@ const nav=[
     <div className="adminPanelHeader">
       <div>
         <h3>📢 Broadcast Message</h3>
-        <p>Send a notification directly to all active HillsByte users on Telegram.</p>
+        <p>Send a notification to all active HillsByte users.</p>
       </div>
     </div>
+
+    <input
+      type="file"
+      accept="image/png,image/jpeg,image/webp"
+      id="broadcastImage"
+    />
 
     <textarea
       placeholder="Write your message here..."
@@ -518,21 +524,39 @@ const nav=[
       className="primaryBtn"
       onClick={async()=>{
         const message=document.getElementById("broadcastMessage").value.trim();
-        if(!message){
-          setToast("Enter a message first.");
+        const image=document.getElementById("broadcastImage").files?.[0];
+
+        if(!message&&!image){
+          setToast("Enter a message or select a picture.");
           return;
         }
 
-        if(!confirm("Send this message to all active users?")) return;
+        if(!confirm("Send this broadcast to all active users?")) return;
 
         try{
+          let imageUrl="";
+
+          if(image){
+            const fd=new FormData();
+            fd.append("image",image);
+
+            const upload=await api("/api/admin/broadcast/upload",{
+              method:"POST",
+              body:fd
+            });
+
+            imageUrl=upload.url;
+          }
+
           const d=await api("/api/admin/broadcast",{
             method:"POST",
-            body:JSON.stringify({message})
+            body:JSON.stringify({message,imageUrl})
           });
 
           setToast(`Broadcast sent to ${d.sent} of ${d.total} users.`);
+
           document.getElementById("broadcastMessage").value="";
+          document.getElementById("broadcastImage").value="";
         }catch(e){
           setToast(e.message);
         }
