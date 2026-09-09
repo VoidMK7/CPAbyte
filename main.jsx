@@ -26,7 +26,7 @@ function App(){
       const user=tgUser(); if(!user.id) throw new Error("Telegram user data is missing. Close and reopen HillsByte from the bot.");
       const d=await api(`/api/bootstrap?telegramId=${encodeURIComponent(user.id)}&username=${encodeURIComponent(user.username||"")}&firstName=${encodeURIComponent(user.first_name||"")}&referralCode=${encodeURIComponent(window.Telegram?.WebApp?.initDataUnsafe?.start_param||"")}`,{headers:{"x-telegram-init-data":window.Telegram?.WebApp?.initData||""}});
       setMe(d.user); setTasks(d.tasks); setAdmin(d.admin); setProfile(d.user);
-    }catch(e){setToast(e.message)}
+    }catch(e){alert(e.message)}
   };
   useEffect(()=>{ window.Telegram?.WebApp?.ready(); window.Telegram?.WebApp?.expand(); load(); },[]);
   useEffect(()=>{ if(!toast)return; const t=setTimeout(()=>setToast(""),3000); return()=>clearTimeout(t)},[toast]);
