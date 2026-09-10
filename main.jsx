@@ -70,7 +70,8 @@ function App(){
       {tab==="task"&&selected&&running&&<TaskRunner task={selected} attempt={running} onDone={()=>{setRunning(null);setSelected(null);setTab("home");load()}} setToast={setToast}/>}
       {tab==="wallet"&&<WalletPage me={me} reload={load} setToast={setToast}/>}
       {tab==="referrals"&&<ReferralPage me={me}/>}
-      {tab==="profile"&&<ProfilePage me={me} reload={load} setToast={setToast} setUnread={setUnread}/>}\n      {tab==="ads"&&<AdsPage setToast={setToast}/>}
+      {tab==="profile"&&<ProfilePage me={me} reload={load} setToast={setToast} setUnread={setUnread}/>}
+{tab==="ads"&&<AdsPage setToast={setToast}/>}
       {tab==="assistant"&&<AssistantPage setToast={setToast}/>}
       {tab==="admin"&&admin&&<AdminPage setToast={setToast}/>}
     </main>
