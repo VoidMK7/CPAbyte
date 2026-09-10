@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: hillsbyte
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_TELEGRAM_IDS
+        sync: false
+      - key: CHANNEL_USERNAME
+        sync: false
+      - key: DB_PATH
+        value: ./data/hillsbyte.db
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        value: hillsbyte-backups
+
+# Persistence:
+# SQLite remains the app's local database, but the database file is restored from
+# and synced to Supabase Storage when SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
+# are configured. This keeps users/tasks/wallet data across Render restarts.
