@@ -1,0 +1,1 @@
+Rebuilt from the HillsByte demo visual foundation and the full-stack backend. Root index.js serves root index.html and static assets. better-sqlite3 is declared. Telegram webhook URL is cpabyte.onrender.com.

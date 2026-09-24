@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: hillsbyte-telegram-mini-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_TELEGRAM_IDS
+        sync: false
+      - key: CHANNEL_USERNAME
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        value: hillsbyte-backups
+      - key: SUPABASE_PROOF_BUCKET
+        value: hillsbyte-proofs
+      - key: SUPABASE_ASSET_BUCKET
+        value: hillsbyte-assets
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5-mini
