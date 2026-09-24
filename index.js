@@ -1001,7 +1001,7 @@ app.get("/api/admin/submissions/:id/proof/:index",async(req,res)=>{
       const fp=path.join(UPLOAD_DIR,path.basename(obj.local));
       if(fs.existsSync(fp)) return res.sendFile(fp);
     }
-    if(obj.url && /^https?:\/\/i.test(obj.url)){
+    if(obj.url && /^https?:\/\//i.test(obj.url)){
       const r=await fetch(obj.url);
       if(!r.ok)return res.status(404).end();
       const contentType=r.headers.get("content-type")||"image/jpeg";
