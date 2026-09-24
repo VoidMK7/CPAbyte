@@ -1,0 +1,5 @@
+HillsByte fixed full-stack build
+
+Includes: functional menu navigation, activity filters, leaderboard filters, community chat, configurable channel/support links, check-in toggle/reward, configurable withdrawal minimum, user search/profile/activity, task CRUD and activation, proof review/sort/select/delete, withdrawal review, events, announcements, Monetag SDK zone 11725898, AI fallback, language/currency/translator, and enlarged green-first menu UI.
+
+The dashboard itself remains medium-sized; the top-right menu drawer and its touch targets are intentionally large.
