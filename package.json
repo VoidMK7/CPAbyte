@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch server/index.js",
-    "start": "start": "node index.js",
+    "start": "node index.js",
     "build": "node -e \"console.log('No frontend build step required.')\""
   },
   "dependencies": {
