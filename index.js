@@ -605,7 +605,7 @@ app.post("/api/telegram/webhook",async(req,res)=>{
 💰 Complete tasks, earn rewards, and grow your balance.
 
 🚀 Open HillsByte below to start earning.`,
-          reply_markup:{inline_keyboard:[[{text:"🚀 Open HillsByte",web_app:{url:"https://cpabyte-1.onrender.com"}}]]}
+          reply_markup:{inline_keyboard:[[{text:"🚀 Open HillsByte",web_app:{url:"https://cpabyte.onrender.com"}}]]}
         })
       });
     }
