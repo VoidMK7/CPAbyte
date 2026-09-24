@@ -1,0 +1,9 @@
+HillsByte full-stack package prepared from the supplied reference screens.
+
+Checks completed:
+- JavaScript syntax checked for public/app.js and server/index.js.
+- Supabase schema includes tables, indexes, atomic RPCs and private task-proofs storage bucket.
+- Proof uploads are persisted in Supabase Storage and served to admins through signed URLs.
+- Admin role is persisted in profiles and is not overwritten by normal login refreshes.
+- Admin Control Center includes Overview, Tasks, Proofs, Withdrawals, Events, Announcements and Ads.
+- Reference screenshots included in reference-screenshots/.
