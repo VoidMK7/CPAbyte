@@ -908,8 +908,8 @@ app.post("/api/admin/reviewer-applications/:id",admin,(req,res)=>{
 });
 app.get("/api/admin/roles",admin,(req,res)=>{
  res.json({
-  reviewers:db.prepare(`SELECT r.*,u.username,u.first_name,u.telegram_id FROM reviewers r JOIN users u ON u.id=r.user_id ORDER BY r.id DESC`).all(),
-  moderators:db.prepare(`SELECT m.*,u.username,u.first_name,u.telegram_id FROM moderators m JOIN users u ON u.id=m.user_id ORDER BY m.id DESC`).all()
+  reviewers:db.prepare(`SELECT r.*,u.username,u.first_name,u.telegram_id FROM reviewers r JOIN users u ON u.id=r.user_id ORDER BY r.user_id DESC`).all(),
+moderators:db.prepare(`SELECT m.*,u.username,u.first_name,u.telegram_id FROM moderators m JOIN users u ON u.id=m.user_id ORDER BY m.user_id DESC`).all()
  });
 });
 app.post("/api/admin/roles/:role/:userId",admin,(req,res)=>{
