@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>HillsByte — Telegram Mini App Demo</title>
+<style>
+:root{
+  --bg:#050a08;--panel:#0b1511;--panel2:#101d18;--line:#16251f;
+  --text:#edf5f1;--muted:#7f918a;--green:#20b879;--green2:#0e5f43;
+  --shadow:0 12px 35px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box} html,body{margin:0;background:#030706;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;border:0}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.top{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#07100c;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:13px}
+.avatar{width:27px;height:27px;border-radius:9px;background:#19a66f;display:grid;place-items:center;font-size:12px;font-weight:800}
+.iconbtn{background:transparent;color:#a8b7b1;font-size:21px;padding:5px}
+.layout{display:flex;flex:1}
+.sidebar{width:220px;border-right:1px solid var(--line);background:#07100c;padding:12px;position:fixed;top:58px;bottom:0;left:0;z-index:15;transform:translateX(-105%);transition:.22s}
+.sidebar.open{transform:none}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{background:transparent;color:#a7b5af;text-align:left;padding:11px 10px;border-radius:9px}
+.nav button.active,.nav button:hover{background:#0b3023;color:#35c58c}
+.main{width:100%;max-width:980px;margin:0 auto;padding:18px 14px 90px}
+h1{font-size:18px;margin:0 0 4px}.sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.card{background:linear-gradient(135deg,#0d1b16,#0a1411);border:1px solid var(--line);border-radius:12px;padding:13px;min-height:64px;box-shadow:var(--shadow)}
+.card small{display:block;color:#81918b;font-size:10px;margin-bottom:6px}.value{font-size:17px;font-weight:650}
+.check{margin-top:16px;padding:13px;border:1px solid var(--line);border-radius:13px;background:#09130f}
+.checkhead{display:flex;justify-content:space-between;align-items:center}.check-title{font-size:12px;font-weight:700}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:11px}.day{background:#12201b;border-radius:8px;text-align:center;padding:8px 2px;font-size:9px;color:#8b9a94}.day.done{background:#0b4a35;color:#33c88e}
+.primary{background:#20b879;color:white;border-radius:8px;padding:8px 13px;font-size:11px;font-weight:700}.primary:active{transform:scale(.98)}
+.section-title{font-size:12px;font-weight:700;margin:20px 0 10px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.quick button{background:transparent;color:#8b9993;font-size:9px}.qicon{width:40px;height:40px;border-radius:11px;margin:auto auto 5px;display:grid;place-items:center;background:#0a2820;color:#43c998;font-size:17px}
+.activity{text-align:center;padding:45px 10px;color:#82908b}.activity .bigicon{font-size:27px;margin-bottom:8px}.activity strong{display:block;color:#dce7e2;font-size:12px;margin-bottom:5px}
+.bottom{position:fixed;bottom:0;left:0;right:0;height:58px;background:rgba(4,10,8,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:30}
+.bottom button{background:transparent;color:#75857e;font-size:9px}.bottom button.active{color:#27bf83}.bottom i{display:block;font-style:normal;font-size:16px;margin-bottom:2px}
+.view{display:none}.view.active{display:block}
+.list{display:grid;gap:8px}.row{background:#0b1511;border:1px solid var(--line);padding:13px;border-radius:11px;display:flex;justify-content:space-between;align-items:center}.row b{font-size:12px}.row span{font-size:10px;color:var(--muted)}
+.withdraw{margin-top:15px;width:100%;height:34px}
+.form{background:#0a1511;border:1px solid var(--line);border-radius:13px;padding:14px}.form label{display:block;font-size:10px;color:#899791;margin:9px 0 5px}.form input,.form textarea,.form select{width:100%;background:#10201a;border:1px solid #193229;color:#e9f3ef;border-radius:8px;padding:10px;outline:none}.form textarea{min-height:75px;resize:vertical}
+.ad{margin-top:16px;border:1px solid #19372c;border-radius:13px;background:linear-gradient(120deg,#0a2119,#0d1512);padding:13px;display:flex;gap:12px;align-items:center}.ad-badge{font-size:9px;color:#67d8ad;background:#0d3a2a;padding:4px 6px;border-radius:5px}.ad h3{font-size:12px;margin:4px 0}.ad p{font-size:10px;color:#879791;margin:0}.ad button{margin-left:auto;white-space:nowrap}
+.chat{height:calc(100vh - 140px);min-height:430px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#07100c}.messages{flex:1;overflow:auto;padding:14px}.msg{max-width:82%;padding:10px 12px;border-radius:12px;margin-bottom:9px;font-size:12px;line-height:1.45}.bot{background:#10221b;color:#dce9e3}.user{background:#0d5b40;margin-left:auto}.composer{display:flex;gap:7px;padding:9px;border-top:1px solid var(--line)}.composer input{flex:1;background:#0d1b16;border:1px solid #193229;color:white;border-radius:9px;padding:10px;outline:none}.composer button{width:42px;border-radius:9px;background:#20b879;color:white}
+.verify{max-width:440px;margin:45px auto}.verify .logo{width:58px;height:58px;border-radius:18px;background:#18a86f;display:grid;place-items:center;font-size:24px;font-weight:800;margin:0 auto 15px}.verify h1{text-align:center;font-size:22px}.verify p{text-align:center;color:var(--muted);font-size:12px;line-height:1.6}.telegram-box{margin-top:18px;background:#0b1712;border:1px solid var(--line);border-radius:14px;padding:16px}.telegram-box .tg{background:#168dcc;color:white;width:100%;padding:11px;border-radius:9px;font-weight:700}.hint{font-size:10px;color:#71817a;text-align:center;margin-top:10px}
+@media(min-width:800px){.sidebar{position:sticky;top:58px;transform:none;height:calc(100vh - 58px)}.main{padding-bottom:30px}.bottom{display:none}.layout{align-items:stretch}.top .menu{display:none}}
+@media(max-width:500px){.quick{gap:5px}.qicon{width:37px;height:37px}.cards{gap:7px}.main{padding-top:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <button class="iconbtn menu" onclick="toggleMenu()">☰</button>
+  <div class="brand"><div class="avatar">H</div> HillsByte</div>
+  <button class="iconbtn">♧</button>
+</header>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="brand" style="margin:5px 8px 15px"><div class="avatar">H</div> HillsByte</div>
+  <nav class="nav">
+    <button onclick="show('dashboard',this)" class="active">▦ &nbsp; Dashboard</button>
+    <button onclick="show('earn',this)">✧ &nbsp; Earn</button>
+    <button onclick="show('activity',this)">⌁ &nbsp; Activity</button>
+    <button onclick="show('wallet',this)">▣ &nbsp; Wallet</button>
+    <button onclick="show('referrals',this)">♧ &nbsp; Referrals</button>
+    <button onclick="show('community',this)">♧ &nbsp; Community</button>
+    <button onclick="show('events',this)">▣ &nbsp; Events</button>
+    <button onclick="show('leaderboard',this)">♜ &nbsp; Leaderboard</button>
+    <button onclick="show('notifications',this)">♧ &nbsp; Notifications</button>
+    <button onclick="show('profile',this)">♙ &nbsp; Profile</button>
+    <button onclick="show('admin',this)">◉ &nbsp; Admin</button>
+    <button onclick="show('assistant',this)">✦ &nbsp; AI Assistant</button>
+  </nav>
+</aside>
+
+<main class="main">
+<section id="dashboard" class="view active">
+  <h1>Welcome back, <span id="userName">Telegram User</span></h1>
+  <div class="sub">Here's your HillsByte snapshot.</div>
+  <div class="cards">
+    <div class="card"><small>Available Balance</small><div class="value">$0.00</div></div>
+    <div class="card"><small>Pending</small><div class="value">$0.00</div></div>
+    <div class="card"><small>Lifetime Earnings</small><div class="value">$0.00</div></div>
+    <div class="card"><small>HillsCoin</small><div class="value">25 HBC</div></div>
+  </div>
+  <div class="check"><div class="checkhead"><div><div class="check-title">🔥 &nbsp; Daily check-in</div><div style="font-size:9px;color:#7d8e87">Current streak: 1 day</div></div><button class="primary" onclick="checkIn()">Check in</button></div>
+  <div class="days"><div class="day done">D1</div><div class="day">D2</div><div class="day">D3</div><div class="day">D4</div><div class="day">D5</div><div class="day">D6</div><div class="day">D7</div></div></div>
+  <div class="section-title">Quick actions</div>
+  <div class="quick">
+    <button onclick="show('earn')"><div class="qicon">✧</div>Earn</button><button onclick="show('wallet')"><div class="qicon">▣</div>Wallet</button><button onclick="show('referrals')"><div class="qicon">♧</div>Referral</button><button onclick="show('activity')"><div class="qicon">⌁</div>Activity</button>
+    <button onclick="show('community')"><div class="qicon">♧</div>Community</button><button onclick="show('events')"><div class="qicon">▣</div>Events</button><button onclick="show('leaderboard')"><div class="qicon">♜</div>Leaderboard</button><button onclick="show('profile')"><div class="qicon">♙</div>Profile</button>
+  </div>
+  <div class="section-title">Recent activity <span style="float:right;color:#27b77d;font-size:9px">View all →</span></div>
+  <div class="activity"><div class="bigicon">⌁</div><strong>No earnings yet</strong>Complete your first task to start earning.<br><button class="primary" style="margin-top:12px" onclick="show('earn')">Find tasks</button></div>
+  <div class="ad"><div><span class="ad-badge">ADVERTISEMENT</span><h3>Partner offer</h3><p>Sponsored tasks and offers can appear here.</p></div><button class="primary">Open</button></div>
+</section>
+
+<section id="earn" class="view"><h1>Earn</h1><div class="sub">Complete tasks and earn rewards.</div><div class="list">
+<div class="row"><div><b>Write a short review</b><br><span>$0.12 · 2 min · easy</span></div><button class="primary">Start</button></div>
+<div class="row"><div><b>Daily check-in bonus</b><br><span>$0.08 · daily</span></div><button class="primary">Claim</button></div>
+<div class="row"><div><b>Try a partner app</b><br><span>$0.15 · social</span></div><button class="primary">Start</button></div>
+</div></section>
+
+<section id="wallet" class="view"><h1>Wallet</h1><div class="sub">Your balances, transactions and withdrawals.</div><div class="cards">
+<div class="card"><small>Available</small><div class="value">$0.00</div></div><div class="card"><small>Pending</small><div class="value">$0.00</div></div><div class="card"><small>Lifetime</small><div class="value">$0.00</div></div><div class="card"><small>Referral earnings</small><div class="value">$0.00</div></div><div class="card"><small>Withdrawable</small><div class="value">$0.00</div></div><div class="card"><small>HillsCoin</small><div class="value">25 HBC</div></div>
+</div><button class="primary withdraw" onclick="alert('Demo withdrawal screen')">⇩ &nbsp; Withdraw</button><div class="section-title">Transaction history</div><div class="activity">▣<br><strong>No transactions yet</strong>Your earnings will appear here.</div></section>
+
+<section id="assistant" class="view"><h1>AI Assistant</h1><div class="sub">Ask about tasks, your wallet, referrals or how HillsByte works.</div>
+<div class="chat"><div class="messages" id="messages"><div class="msg bot">Hi! I'm the HillsByte AI assistant. I can help explain tasks, withdrawals, referrals, check-ins and other app features.</div></div><div class="composer"><input id="chatInput" placeholder="Message the assistant…" onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()">➤</button></div></div></section>
+
+<section id="profile" class="view"><h1>Profile</h1><div class="sub">Telegram account</div><div class="form"><label>Telegram display name</label><input id="profileName" value="Telegram User"><label>Telegram ID</label><input value="Verified from Telegram Mini App" disabled><label>Referral code</label><input value="HILLS-TELEGRAM" disabled><button class="primary" style="width:100%;margin-top:12px" onclick="saveProfile()">Save profile</button></div></section>
+
+<section id="referrals" class="view"><h1>Referrals</h1><div class="sub">Invite friends and track referral rewards.</div><div class="card"><small>Your referral code</small><div class="value">HILLS-TELEGRAM</div><button class="primary" style="margin-top:10px" onclick="navigator.clipboard?.writeText('HILLS-TELEGRAM')">Copy code</button></div></section>
+<section id="community" class="view"><h1>Community</h1><div class="sub">Stay connected with HillsByte.</div><div class="row"><div><b>HillsByte Community</b><br><span>Telegram community</span></div><button class="primary">Open</button></div></section>
+<section id="events" class="view"><h1>Events</h1><div class="sub">Upcoming HillsByte events.</div><div class="list"><div class="row"><div><b>Referral Challenge</b><br><span>Upcoming</span></div><button class="primary">View</button></div><div class="row"><div><b>New Task Drop</b><br><span>Upcoming</span></div><button class="primary">View</button></div></div></section>
+<section id="leaderboard" class="view"><h1>Leaderboard</h1><div class="sub">Top earners.</div><div class="list"><div class="row"><b>1. Top Earner</b><span>1,240 HBC</span></div><div class="row"><b>2. Active User</b><span>980 HBC</span></div><div class="row"><b>3. Telegram User</b><span>25 HBC</span></div></div></section>
+<section id="activity" class="view"><h1>Activity</h1><div class="sub">Your recent activity.</div><div class="activity">⌁<br><strong>No activity yet</strong>Complete a task to see activity here.</div></section>
+<section id="notifications" class="view"><h1>Notifications</h1><div class="sub">Updates from HillsByte.</div><div class="activity">♧<br><strong>No new notifications</strong></div></section>
+<section id="admin" class="view"><h1>Admin Control Center</h1><div class="sub">Demo admin interface — connect to a protected backend before production.</div><div class="section-title">Tasks</div><div class="form"><label>Title</label><input placeholder="Task title"><label>Description</label><textarea placeholder="Task description"></textarea><label>Reward (USD)</label><input value="0.07"><label>Category</label><select><option>social</option><option>app</option><option>survey</option></select><label>Task URL</label><input placeholder="https://…"><label>Instructions</label><textarea></textarea><button class="primary" style="width:100%;margin-top:12px">Save task</button></div></section>
+</main></div>
+<nav class="bottom"><button class="active" onclick="show('dashboard',this)">✧<br>Earn</button><button onclick="show('wallet',this)">▣<br>Wallet</button><button onclick="show('community',this)">♧<br>Community</button><button onclick="show('profile',this)">♙<br>Profile</button></nav>
+</div>
+
+<script>
+function toggleMenu(){document.getElementById('sidebar').classList.toggle('open')}
+function show(id,el){
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ const v=document.getElementById(id); if(v)v.classList.add('active');
+ document.querySelectorAll('.nav button,.bottom button').forEach(x=>x.classList.remove('active'));
+ if(el)el.classList.add('active');
+ document.getElementById('sidebar').classList.remove('open');
+ window.scrollTo(0,0);
+}
+function checkIn(){alert('Demo: daily check-in recorded. Backend persistence will be added later.')}
+function saveProfile(){document.getElementById('userName').textContent=document.getElementById('profileName').value||'Telegram User';alert('Profile saved in this demo.')}
+function sendMsg(){
+ const input=document.getElementById('chatInput'), text=input.value.trim(); if(!text)return;
+ const box=document.getElementById('messages');
+ box.insertAdjacentHTML('beforeend','<div class="msg user">'+escapeHtml(text)+'</div>');
+ input.value='';
+ setTimeout(()=>{box.insertAdjacentHTML('beforeend','<div class="msg bot">'+botReply(text)+'</div>');box.scrollTop=box.scrollHeight},350);
+}
+function botReply(t){
+ t=t.toLowerCase();
+ if(t.includes('withdraw'))return 'Withdrawals can be handled from Wallet. In the production version, I can explain the supported payout method, minimum withdrawal and status of a request.';
+ if(t.includes('task'))return 'Open Earn to see available tasks. Each task can have a reward, category, timer, instructions and proof requirements.';
+ if(t.includes('referr'))return 'Your referral section contains your invite code and referral activity. The production backend can calculate and credit referral rewards automatically.';
+ if(t.includes('check'))return 'Daily check-in rewards are shown on the dashboard. A real backend should enforce the once-per-day rule server-side.';
+ return 'I can help with HillsByte features such as tasks, rewards, wallet, withdrawals, referrals, check-ins and account settings. In production this demo can be connected to a real AI API.';
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+</script>
+</body>
+</html>
