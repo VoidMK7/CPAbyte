@@ -1,0 +1,6 @@
+import Link from 'next/link';
+export function Header({eyebrow,title,sub}){return <div className="adminHeader"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1>{sub&&<p className="muted">{sub}</p>}</div>}
+export function AdminNav(){const items=[['/admin','Dashboard'],['/admin/overview','Overview'],['/admin/analytics','Analytics'],['/admin/tasks','Tasks'],['/admin/proofs','Proofs'],['/admin/withdrawals','Withdrawals'],['/admin/payouts','Payouts'],['/admin/ads','Ads'],['/admin/events','Events'],['/admin/announcements','Announcements'],['/admin/referrals','Referral'],['/admin/users','Users'],['/admin/reviewers','Reviewers'],['/admin/permissions','Permissions'],['/admin/moderation','Moderation'],['/admin/telegram','Telegram']];return <div className="adminNav">{items.map(x=><Link key={x[0]} href={x[0]}>{x[1]}</Link>)}</div>}
+export function AdminLayout({title,sub,children}){return <><Header eyebrow="ADMIN CONTROL CENTER" title={title} sub={sub}/><AdminNav/>{children}</>}
+export function Field({label,children,full=false}){return <div className={'formrow '+(full?'full':'')}><label>{label}</label>{children||<input className="input"/>}</div>}
+export function Action({children='Save changes'}){return <button className="btn" type="button">{children}</button>}
